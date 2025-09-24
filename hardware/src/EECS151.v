@@ -630,3 +630,336 @@ module WF_CU(rst, instruction, rf_we, wb_sel, ldx_sel, pc_sel, br_taken, jal, ja
 		endcase
 	end
 endmodule // WF_CU
+
+module D_CU(instruction, pc, pc_thirty, nop_sel, orange_sel, green_sel, jalr, br_taken, wf_instruction);
+	input [31:0] instruction, pc, wf_instruction;
+  input jalr;
+  input br_taken;
+  // input br_taken, jalr; need br_taken and jalr for later
+	output reg orange_sel, green_sel;
+  output nop_sel, pc_thirty;
+
+	assign pc_thirty = pc[30];
+
+  assign nop_sel = (jalr || br_taken) ? 1 : 0;
+
+
+  // 2 Cycle Hazard
+  always @(*) begin
+    if (wf_instruction[6:2] == `OPC_BRANCH_5 || wf_instruction[6:2] == `OPC_STORE_5) begin
+      orange_sel = 0;
+      green_sel = 0;
+    end
+    else begin
+        if (wf_instruction[11:7] == instruction[19:15] && wf_instruction[11:7] == instruction[24:20]) begin
+          orange_sel = 1;
+          green_sel = 1;
+        end
+        else if (wf_instruction[11:7] == instruction[19:15]) begin
+          orange_sel = 1;
+          green_sel = 0;
+        end
+        else if (wf_instruction[11:7] == instruction[24:20]) begin
+          orange_sel = 0;
+          green_sel = 1;
+        end
+        else begin
+          orange_sel = 0;
+          green_sel = 0;
+        end
+    end
+  end
+endmodule // D_CU
+
+module X_CU(instruction, orange_sel, green_sel, br_un, br_eq, br_lt, a_sel, b_sel, rs2_sel, alu_sel, csr_sel, br_taken, wf_instruction);
+	input [31:0] instruction, wf_instruction;
+  input br_eq, br_lt;
+
+	output reg br_un, b_sel, csr_sel;
+	output reg [1:0] orange_sel, green_sel, a_sel, rs2_sel;
+	output reg [3:0] alu_sel;
+  output reg br_taken; // add br_taken logic
+
+  //br_taken logic
+  always @(*) begin
+		if (instruction[6:2] == `OPC_BRANCH_5) begin // If it is a branch inst
+			case(instruction[14:12])
+				`FNC_BEQ: begin // beq
+					if (br_eq) br_taken = 1;
+					else br_taken = 0;
+				end
+				`FNC_BGE: begin // bge
+					if (!br_lt) br_taken = 1;
+					else br_taken = 0;
+				end
+				`FNC_BGEU: begin // bgeu
+					if (!br_lt) br_taken = 1;
+					else br_taken = 0;
+				end
+				`FNC_BLT: begin // blt
+					if (br_lt) br_taken = 1;
+					else br_taken = 0;
+				end
+				`FNC_BLTU: begin // bltu
+					if (br_lt) br_taken = 1;
+					else br_taken = 0;
+				end
+				`FNC_BNE: begin // bne
+					if (!br_eq) br_taken = 1;
+					else br_taken = 0;
+				end
+			endcase
+		end
+    else br_taken = 0;
+	end
+
+  //select logic
+  always @(*) begin
+		case(instruction[6:2])
+			`OPC_ARI_RTYPE_5: begin // If R-type AKA type = 0
+				br_un = 0;
+				a_sel = 0; // forwarding
+				b_sel = 0;
+				// rs2_sel = 0;
+				case(instruction[14:12])
+          `FNC_ADD_SUB: begin // add 
+            if (instruction[30] == `FNC2_SUB) alu_sel = 4'b0001;
+            else alu_sel = 4'b0000;
+          end
+          `FNC_AND: alu_sel = 4'b0010; // and
+          `FNC_OR: alu_sel = 4'b0011; // or
+          `FNC_XOR: alu_sel = 4'b0100; // xor
+          `FNC_SLL: alu_sel = 4'b0101; // sll
+          `FNC_SRL_SRA: begin // srl and sra
+            if (instruction[30] == `FNC2_SRA) alu_sel = 4'b0111; // sra
+            else alu_sel = 4'b0110; // srl
+          end
+          `FNC_SLT: alu_sel = 4'b1000; // slt
+          `FNC_SLTU: alu_sel = 4'b1001; // sltu
+          default: begin
+            alu_sel = 4'b0000;
+          end
+        endcase
+				csr_sel = 0;
+			end
+			`OPC_ARI_ITYPE_5: begin // If I-type (I and I*)
+				br_un = 0;
+				a_sel = 0;
+				b_sel = 1;
+				// rs2_sel = 0;
+				case(instruction[14:12])
+          `FNC_ADD_SUB: alu_sel = 4'b0000; // addi
+          `FNC_AND: alu_sel = 4'b0010; // andi
+          `FNC_OR: alu_sel = 4'b0011; // ori
+          `FNC_XOR: alu_sel = 4'b0100; // xori
+          `FNC_SLL: alu_sel = 4'b0101; // slli
+          `FNC_SRL_SRA: begin
+            if (instruction[30] == `FNC2_SRL) alu_sel = 4'b0110; // srli
+            else alu_sel = 4'b0111; // srai
+          end
+          `FNC_SLT: alu_sel = 4'b1000; // slti
+          `FNC_SLTU: alu_sel = 4'b1001; // sltiu
+        endcase
+				csr_sel = 0;
+			end
+      `OPC_LOAD_5: begin // load (I type)
+				br_un = 0;
+				a_sel = 0;
+				b_sel = 1;
+				// rs2_sel = 0;
+        alu_sel = 4'b0000;
+        csr_sel = 0;
+      end
+      `OPC_STORE_5: begin // S type
+				br_un = 0;
+				a_sel = 0;
+				b_sel = 1;
+				// rs2_sel = 0;
+				alu_sel = 0;
+				csr_sel = 0;
+      end
+			`OPC_BRANCH_5: begin // B-type
+        if (instruction[14:12] == 3'b111 || instruction[14:12] == 3'b110) br_un = 1;
+        else br_un = 0;
+				a_sel = 1;
+				b_sel = 1;
+				// rs2_sel = 0;
+				alu_sel = 0;
+				csr_sel = 0;
+			end
+      `OPC_JAL_5: begin // J type (jal)
+				br_un = 0;
+				a_sel = 1;
+				b_sel = 1;
+				// rs2_sel = 0;
+				alu_sel = 0;
+				csr_sel = 0;
+      end
+      `OPC_JALR_5: begin // JALR (I type)
+				br_un = 0;
+				a_sel = 0;
+				b_sel = 1;
+				// rs2_sel = 0;
+				alu_sel = 0;
+				csr_sel = 0;
+      end
+      `OPC_AUIPC_5: begin // AUIPC
+				br_un = 0;
+				a_sel = 1;
+				b_sel = 1;
+				// rs2_sel = 0;
+				alu_sel = 0;
+				csr_sel = 0;
+      end
+      `OPC_LUI_5: begin // LUI
+				br_un = 0;
+				a_sel = 0;
+				b_sel = 1;
+				// rs2_sel = 0;
+				alu_sel = 0;
+				csr_sel = 0;
+      end
+	    5'b11100: begin // CSRR
+	  	  if (instruction[14:12] == 3'b001) begin // CSRRW
+					br_un = 0;
+					a_sel = 0;
+					b_sel = 1;
+					// rs2_sel = 0;
+					alu_sel = 0;
+					csr_sel = 1;//rs1
+				end
+				else if (instruction[14:12] == 3'b101) begin // CSRRWI
+					br_un = 0;
+					a_sel = 0;
+					b_sel = 1;
+					// rs2_sel = 0;
+					alu_sel = 0;
+					csr_sel = 0;//imm
+				end
+	  end
+			default: begin
+				br_un = 0;
+				a_sel = 0;
+				b_sel = 0;
+				// rs2_sel = 0;
+				alu_sel = 0;
+				csr_sel = 0;
+			end
+		endcase
+	end
+
+  //forwarding logic
+  // ALU to ALU and MEM to ALU
+  always @(*) begin
+    case(wf_instruction[6:2])
+      `OPC_ARI_RTYPE_5: begin
+        if (wf_instruction[11:7] == instruction[19:15] && wf_instruction[11:7] == instruction[24:20]) begin
+          orange_sel = 1;
+					green_sel = 1;
+        end
+        else if (wf_instruction[11:7] == instruction[19:15]) begin // WF_rd == X_rs1
+					orange_sel = 1;
+					green_sel = 0;
+				end
+        else if(wf_instruction[11:7] == instruction[24:20]) begin // WF_rd == X_rs2
+					orange_sel = 0;
+          green_sel = 1;
+				end
+        else begin
+					orange_sel = 0;
+					green_sel = 0;
+				end
+      end
+      `OPC_ARI_ITYPE_5: begin
+        if (wf_instruction[11:7] == instruction[19:15]) begin // WF_rd == X_rs1
+					orange_sel = 1;
+					green_sel = 0;
+				end
+				else begin
+					orange_sel = 0;
+					green_sel = 0;
+				end
+      end
+      `OPC_JAL_5: begin
+        if (wf_instruction[11:7] == instruction[19:15] && wf_instruction[11:7] == instruction[24:20]) begin
+          orange_sel = 1;
+					green_sel = 1;
+        end
+        else if (wf_instruction[11:7] == instruction[19:15]) begin // WF_rd == X_rs1
+					orange_sel = 1;
+					green_sel = 0;
+				end
+        else if(wf_instruction[11:7] == instruction[24:20]) begin // WF_rd == X_rs2
+					orange_sel = 0;
+          green_sel = 1;
+				end
+        else begin
+					orange_sel = 0;
+					green_sel = 0;
+				end
+      end
+      `OPC_LOAD_5: begin // might need to add an AND case
+        if (wf_instruction[11:7] == instruction[19:15]) begin
+          orange_sel = 2;
+          green_sel = 0;
+        end
+        else if (wf_instruction[11:7] == instruction[24:20]) begin
+          orange_sel = 0;
+          green_sel = 2;
+        end
+        else begin
+          orange_sel = 0;
+          green_sel = 0;
+        end
+      end
+      default: begin
+        orange_sel = 0;
+        green_sel = 0;
+      end
+    endcase
+  end
+
+// ALU to MEM and MEM to MEM  rs2_sel
+  always @(*) begin
+    case (instruction[6:2])
+      `OPC_STORE_5: begin
+        if (wf_instruction[6:2] == `OPC_LOAD_5 && wf_instruction[11:7] == instruction[24:20]) begin
+          rs2_sel = 2'd2; // MEM to MEM
+        end
+        else if (wf_instruction[11:7] == instruction[24:20] && wf_instruction[6:2] != `OPC_STORE_5 && wf_instruction != `OPC_BRANCH_5) begin
+          rs2_sel = 2'd1; // ALU to MEM
+        end
+        else begin
+          rs2_sel = 2'd0; // RS2_MUX2
+        end
+      end
+      default: begin
+        rs2_sel = 2'd0;
+      end
+    endcase
+  end
+
+  // MEM to MEM  a_sel
+  always @(*) begin
+    if (instruction[6:2] == `OPC_BRANCH_5 || instruction[6:2] == `OPC_JAL_5 || instruction[6:2] == `OPC_AUIPC_5) begin
+      a_sel = 2'd1; // PC
+    end
+    else begin
+      case(wf_instruction[6:2])
+        `OPC_LOAD_5: begin
+          if (instruction[6:2] == `OPC_STORE_5 && wf_instruction[11:7] == instruction[19:15]) begin
+            a_sel = 2'd2; // MEM to MEM
+          end
+          else begin
+            a_sel = 2'd0; // RS1_MUX2
+          end
+        end
+        default: begin
+          a_sel = 2'd0;
+        end
+      endcase
+    end
+  end
+
+
+endmodule // X_CU
