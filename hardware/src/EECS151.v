@@ -558,6 +558,7 @@ module WF_CU(rst, instruction, rf_we, wb_sel, ldx_sel, pc_sel, br_taken, jal, ja
     else if (jal) pc_sel = 1;
     else if (jalr) pc_sel = 3;
     else if (br_taken) pc_sel = 3;
+    //else if (instruction[6:2] == `OPC_BRANCH_5 || instruction[6:2] == `OPC_JALR_5) pc_sel = 4;//weather need?
     else pc_sel = 2;
   end
  

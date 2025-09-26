@@ -516,6 +516,7 @@ module cpu #(
     // send ALU result back to PC_SEL MUX
     // assign pc_mux_in3 = alu_register_q;
     assign pc_mux_in3 = alu_out;
+    
 
     // Input to ldx for lw, lh and lb
     assign ldx_alu_out = alu_register_q;

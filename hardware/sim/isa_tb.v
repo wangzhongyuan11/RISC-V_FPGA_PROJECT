@@ -19,7 +19,7 @@ module isa_tb();
   ) cpu (
     .clk(clk),
     .rst(rst),
-    .bp_enable(bp_enable),
+    //.bp_enable(bp_enable),
     .serial_in(1'b1),
     .serial_out()
   );
