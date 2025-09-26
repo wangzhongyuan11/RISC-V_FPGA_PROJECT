@@ -77,14 +77,14 @@ module asm_tb();
     wait_for_reg_to_equal(20, 32'd3);
     check_reg(2, 32'd8, 4);
 
-    wait_for_reg_to_equal(20, 32'd4);
+     wait_for_reg_to_equal(20, 32'd4);
     check_reg(2, 32'd25, 5);
 
     wait_for_reg_to_equal(20, 32'd5);
     check_reg(1, 32'd24, 6);
 
-    wait_for_reg_to_equal(20, 32'd6);
-    check_reg(8, -32'd1, 7);
+     wait_for_reg_to_equal(20, 32'd6);
+     check_reg(8, -32'd1, 7);
 
     wait_for_reg_to_equal(20, 32'd7);
     check_reg(1, 32'd4278255360, 8);
