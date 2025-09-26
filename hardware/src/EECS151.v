@@ -22,6 +22,7 @@
  REGISTER_R_CE
 */
 `timescale 1ns/1ns
+`include "opcode.vh"
 
 // Register of D-Type Flip-flops
 module REGISTER(q, d, clk);
@@ -816,7 +817,7 @@ module X_CU(instruction, orange_sel, green_sel, br_un, br_eq, br_lt, a_sel, b_se
 				a_sel = 0;
 				b_sel = 1;
 				// rs2_sel = 0;
-				alu_sel = 0;
+				alu_sel = 4'b1010;
 				csr_sel = 0;
       end
 	    5'b11100: begin // CSRR
@@ -874,6 +875,10 @@ module X_CU(instruction, orange_sel, green_sel, br_un, br_eq, br_lt, a_sel, b_se
         if (wf_instruction[11:7] == instruction[19:15]) begin // WF_rd == X_rs1
 					orange_sel = 1;
 					green_sel = 0;
+				end
+         else if(wf_instruction[11:7] == instruction[24:20]) begin // WF_rd == X_rs2
+					orange_sel = 0;
+          green_sel = 1;
 				end
 				else begin
 					orange_sel = 0;

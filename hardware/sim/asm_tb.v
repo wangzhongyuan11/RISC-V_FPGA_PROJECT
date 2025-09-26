@@ -16,7 +16,7 @@ module asm_tb();
   ) cpu (
     .clk(clk),
     .rst(rst),
-    .bp_enable(bp_enable),
+    //.bp_enable(bp_enable),
     .serial_in(1'b1),
     .serial_out()
   );
@@ -72,8 +72,27 @@ module asm_tb();
     wait_for_reg_to_equal(20, 32'd2);       // Run the simulation until the flag is set to 2
     check_reg(1, 32'd500, 2);               // Verify that x1 contains 500
     check_reg(2, 32'd100, 3);               // Verify that x2 contains 100
+
+    // Test AND
+    wait_for_reg_to_equal(20, 32'd3);
+    check_reg(2, 32'd8, 4);
+
+    wait_for_reg_to_equal(20, 32'd4);
+    check_reg(2, 32'd25, 5);
+
+    wait_for_reg_to_equal(20, 32'd5);
+    check_reg(1, 32'd24, 6);
+
+    wait_for_reg_to_equal(20, 32'd6);
+    check_reg(8, -32'd1, 7);
+
+    wait_for_reg_to_equal(20, 32'd7);
+    check_reg(1, 32'd4278255360, 8);
+    check_reg(2, 32'd252645135, 9);
+    check_reg(14, 32'd251662080, 10);
     $display("ALL ASSEMBLY TESTS PASSED!");
     $finish();
+
   end
 
   initial begin

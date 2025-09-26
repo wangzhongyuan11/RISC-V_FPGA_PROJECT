@@ -1,0 +1,9 @@
+WARNING: asm_tb.v:48: $readmemh(../../software/asm/asm.hex): Not enough words in the file for the requested range [0:4095].
+FST info: dumpfile asm_tb.fst opened for output.
+PASS - test    1, got:        300 for reg  1
+PASS - test    2, got:        500 for reg  1
+PASS - test    3, got:        100 for reg  2
+PASS - test    4, got:          8 for reg  2
+PASS - test    6, got:         24 for reg  1
+FAIL - test    7, got:          x, expected: 4294967295 for reg  8
+asm_tb.v:32: $finish called at 650000 (1ps)
