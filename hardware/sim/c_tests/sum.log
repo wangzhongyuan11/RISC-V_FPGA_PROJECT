@@ -1,0 +1,5 @@
+WARNING: ../c_tests_tb.v:53: $readmemh(/home/wang/RISC-V_FPGA_PROJECT/hardware/../software/c_tests/sum/sum.hex): Not enough words in the file for the requested range [0:16383].
+WARNING: ../c_tests_tb.v:54: $readmemh(/home/wang/RISC-V_FPGA_PROJECT/hardware/../software/c_tests/sum/sum.hex): Not enough words in the file for the requested range [0:16383].
+FST info: dumpfile sum.fst opened for output.
+[     11125 sim. cycles] CSR test PASSED!
+../c_tests_tb.v:86: $finish called at 224710000 (1ps)

@@ -1,0 +1,5 @@
+WARNING: ../c_tests_tb.v:53: $readmemh(/home/wang/RISC-V_FPGA_PROJECT/hardware/../software/c_tests/vecadd/vecadd.hex): Not enough words in the file for the requested range [0:16383].
+WARNING: ../c_tests_tb.v:54: $readmemh(/home/wang/RISC-V_FPGA_PROJECT/hardware/../software/c_tests/vecadd/vecadd.hex): Not enough words in the file for the requested range [0:16383].
+FST info: dumpfile vecadd.fst opened for output.
+[     21531 sim. cycles] CSR test PASSED!
+../c_tests_tb.v:86: $finish called at 432830000 (1ps)
