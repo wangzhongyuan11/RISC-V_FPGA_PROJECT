@@ -27,7 +27,7 @@ module echo_tb();
   ) cpu (
     .clk(clk),
     .rst(rst),
-    .bp_enable(bp_enable),
+   // .bp_enable(bp_enable),
     .serial_in(serial_in),   // input
     .serial_out(serial_out)  // output
   );
