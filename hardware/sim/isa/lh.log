@@ -1,5 +1,5 @@
 WARNING: ../isa_tb.v:48: $readmemh(/home/wang/RISC-V_FPGA_PROJECT/hardware/../software/riscv-isa-tests/lh.hex): Not enough words in the file for the requested range [0:16383].
 WARNING: ../isa_tb.v:49: $readmemh(/home/wang/RISC-V_FPGA_PROJECT/hardware/../software/riscv-isa-tests/lh.hex): Not enough words in the file for the requested range [0:16383].
 FST info: dumpfile lh.fst opened for output.
-[failed] - lh. Failed test:        127
-../isa_tb.v:72: $finish called at 730000 (1ps)
+[passed] - lh in        241 simulation cycles
+../isa_tb.v:72: $finish called at 5430000 (1ps)
