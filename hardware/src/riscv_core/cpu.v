@@ -425,7 +425,7 @@ module cpu #(
 
     // For addr_mux_sel (output of memories)
     always @(*) begin
-        case(alu_out[31:28])
+        case(alu_register_q[31:28])
             4'b0001: addr_mux_sel = 2'b01;
             4'b0011: addr_mux_sel = 2'b01;
             4'b0100: addr_mux_sel = 2'b00;

@@ -2,34 +2,24 @@ WARNING: echo_tb.v:105: $readmemh(../../software/echo/echo.hex): Not enough word
 WARNING: echo_tb.v:106: $readmemh(../../software/echo/echo.hex): Not enough words in the file for the requested range [0:16383].
 FST info: dumpfile echo_tb.fst opened for output.
 [time             10390000, sim. cycle        509] [Host (tb) --> FPGA_SERIAL_RX] Sent char 8'h61
-[time             10690000, sim. cycle        524] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h00, stop_bit=1
-[time             20950000, sim. cycle       1037] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h00, stop_bit=1
+[time             20790000, sim. cycle       1029] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h61, stop_bit=1
 [time             22370000, sim. cycle       1108] [Host (tb) --> FPGA_SERIAL_RX] Sent char 8'h62
-[time             31210000, sim. cycle       1550] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h00, stop_bit=1
+[time             32770000, sim. cycle       1628] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h62, stop_bit=1
 [time             34350000, sim. cycle       1707] [Host (tb) --> FPGA_SERIAL_RX] Sent char 8'h63
-[time             41470000, sim. cycle       2063] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h00, stop_bit=1
+[time             44750000, sim. cycle       2227] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h63, stop_bit=1
 [time             46330000, sim. cycle       2306] [Host (tb) --> FPGA_SERIAL_RX] Sent char 8'h64
-[time             51730000, sim. cycle       2576] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h00, stop_bit=1
+[time             56730000, sim. cycle       2826] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h64, stop_bit=1
 [time             58310000, sim. cycle       2905] [Host (tb) --> FPGA_SERIAL_RX] Sent char 8'h65
-[time             61990000, sim. cycle       3089] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h00, stop_bit=1
+[time             68710000, sim. cycle       3425] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h65, stop_bit=1
 [time             70290000, sim. cycle       3504] [Host (tb) --> FPGA_SERIAL_RX] Sent char 8'h66
-[time             72250000, sim. cycle       3602] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h00, stop_bit=1
+[time             80690000, sim. cycle       4024] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h66, stop_bit=1
 [time             82270000, sim. cycle       4103] [Host (tb) --> FPGA_SERIAL_RX] Sent char 8'h67
-[time             82510000, sim. cycle       4115] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h00, stop_bit=1
-[time             92770000, sim. cycle       4628] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h00, stop_bit=1
+[time             92670000, sim. cycle       4623] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h67, stop_bit=1
 [time             94250000, sim. cycle       4702] [Host (tb) --> FPGA_SERIAL_RX] Sent char 8'h68
-[time            103030000, sim. cycle       5141] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h00, stop_bit=1
+[time            104650000, sim. cycle       5222] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h68, stop_bit=1
 [time            106230000, sim. cycle       5301] [Host (tb) --> FPGA_SERIAL_RX] Sent char 8'h69
+[time            116630000, sim. cycle       5821] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h69, stop_bit=1
 [time            118210000, sim. cycle       5900] [Host (tb) --> FPGA_SERIAL_RX] Sent char 8'h6a
-Mismatches at char           0: char_from_host=61, char_to_host=00
-Mismatches at char           1: char_from_host=62, char_to_host=00
-Mismatches at char           2: char_from_host=63, char_to_host=00
-Mismatches at char           3: char_from_host=64, char_to_host=00
-Mismatches at char           4: char_from_host=65, char_to_host=00
-Mismatches at char           5: char_from_host=66, char_to_host=00
-Mismatches at char           6: char_from_host=67, char_to_host=00
-Mismatches at char           7: char_from_host=68, char_to_host=00
-Mismatches at char           8: char_from_host=69, char_to_host=00
-Mismatches at char           9: char_from_host=6a, char_to_host=00
-Test failed
-echo_tb.v:150: $finish called at 120190000 (1ps)
+[time            128610000, sim. cycle       6420] [Host (tb) <-- FPGA_SERIAL_TX] Got char: start_bit=0, payload=8'h6a, stop_bit=1
+Test passed!
+echo_tb.v:150: $finish called at 128610000 (1ps)
