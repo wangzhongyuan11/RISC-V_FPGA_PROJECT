@@ -1,0 +1,9 @@
+WARNING: mmult_tb.v:27: $readmemh: The behaviour for reg[...] mem[N:0]; $readmemh("...", mem); changed in the 1364-2005 standard. To avoid ambiguity, use mem[0:N] or explicit range parameters $readmemh("...", mem, start, stop);. Defaulting to 1364-2005 behavior.
+WARNING: mmult_tb.v:27: $readmemh(../../software/mmult/mmult.hex): Not enough words in the file for the requested range [0:4095].
+FST info: dumpfile mmult_tb.fst opened for output.
+--------------------------------------------------
+Cycle Counter       =     150179
+Instruction Counter =     131333
+CPI = 1.143498
+--------------------------------------------------
+mmult_tb.v:56: $finish called at 4000190000 (1ps)

@@ -1,0 +1,69 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.2 (lin64) Build 5239630 Fri Nov 08 22:34:34 MST 2024
+| Date         : Sat Sep 27 20:13:56 2025
+| Host         : wang running 64-bit Ubuntu 24.04.2 LTS
+| Command      : report_drc -file post_route_drc.rpt
+| Design       : z1top
+| Device       : xc7z020clg400-1
+| Speed File   : -1
+| Design State : Fully Routed
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Report DRC
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: netlist
+          Floorplan: checkpoint_z1top
+      Design limits: <entire design considered>
+           Ruledeck: default
+             Max checks: <unlimited>
+             Checks found: 6
++----------+----------+------------------------------------------------+--------+
+| Rule     | Severity | Description                                    | Checks |
++----------+----------+------------------------------------------------+--------+
+| PDRC-138 | Warning  | SLICE_PairEqSame_D6D5_WARN                     | 1      |
+| PDRC-153 | Warning  | Gated clock check                              | 3      |
+| PLIO-8   | Warning  | Placement Constraints Check for IO constraints | 1      |
+| ZPS7-1   | Warning  | PS7 block required                             | 1      |
++----------+----------+------------------------------------------------+--------+
+
+2. REPORT DETAILS
+-----------------
+PDRC-138#1 Warning
+SLICE_PairEqSame_D6D5_WARN  
+Luts D6LUT and D5LUT in use in site SLICE_X61Y33 with different equations without A6 pin connected to Global Logic High.
+Related violations: <none>
+
+PDRC-153#1 Warning
+Gated clock check  
+Net cpu/x_cu/br_taken_reg_i_2_n_1 is a gated clock net sourced by a combinational pin cpu/x_cu/br_taken_reg_i_2/O, cell cpu/x_cu/br_taken_reg_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#2 Warning
+Gated clock check  
+Net cpu/x_cu/br_un_reg_i_2_n_1 is a gated clock net sourced by a combinational pin cpu/x_cu/br_un_reg_i_2/O, cell cpu/x_cu/br_un_reg_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#3 Warning
+Gated clock check  
+Net cpu/x_cu/instruction_decode_register_q_reg[12] is a gated clock net sourced by a combinational pin cpu/x_cu/dmem_we_reg[3]_rep_i_2/O, cell cpu/x_cu/dmem_we_reg[3]_rep_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PLIO-8#1 Warning
+Placement Constraints Check for IO constraints  
+Terminal AUD_PWM has IOB constraint set to TRUE, but it is either not connected to a FLOP element or the connected FLOP element could not be brought into the I/O.
+Related violations: <none>
+
+ZPS7-1#1 Warning
+PS7 block required  
+The PS7 cell must be used in this Zynq design in order to enable correct default configuration.
+Related violations: <none>
+
+

@@ -1,0 +1,617 @@
+
+****** Vivado v2024.2 (64-bit)
+  **** SW Build 5239630 on Fri Nov 08 22:34:34 MST 2024
+  **** IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+  **** SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+  **** Start of session at: Sat Sep 27 20:10:20 2025
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source /home/wang/RISC-V_FPGA_PROJECT/hardware/scripts/synth.tcl
+# source ../target.tcl
+## set ABS_TOP                        /home/wang/RISC-V_FPGA_PROJECT/hardware
+## set TOP                            z1top
+## set FPGA_PART                      xc7z020clg400-1
+## set_param general.maxThreads       4
+## set_param general.maxBackupLogs    0
+## set RTL { /home/wang/RISC-V_FPGA_PROJECT/hardware/src/clocks.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/memories/imem.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/memories/dmem.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/memories/bios_mem.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/EECS151.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/uart_transmitter.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/uart_receiver.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/uart.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/synchronizer.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/fifo.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/button_parser.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/edge_detector.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/debouncer.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/riscv_core/reg_file.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/riscv_core/cpu.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/riscv_core/branch_prediction/branch_predictor.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/riscv_core/branch_prediction/bp_cache.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/riscv_core/branch_prediction/sat_updn.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/z1top.v /home/wang/RISC-V_FPGA_PROJECT/hardware/src/memory_io.v }
+## set CONSTRAINTS { /home/wang/RISC-V_FPGA_PROJECT/hardware/src/z1top.xdc }
+# if {[string trim ${RTL}] ne ""} {
+#   read_verilog -sv ${RTL}
+# }
+# if {[string trim ${CONSTRAINTS}] ne ""} {
+#   read_xdc ${CONSTRAINTS}
+# }
+# synth_design -verilog_define SYNTHESIS -verilog_define ABS_TOP=${ABS_TOP} -top ${TOP} -part ${FPGA_PART} -include_dirs ${ABS_TOP}/src/riscv_core
+Command: synth_design -verilog_define SYNTHESIS -verilog_define ABS_TOP=/home/wang/RISC-V_FPGA_PROJECT/hardware -top z1top -part xc7z020clg400-1 -include_dirs /home/wang/RISC-V_FPGA_PROJECT/hardware/src/riscv_core
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Device 21-403] Loading part xc7z020clg400-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 64729
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 1902.004 ; gain = 428.801 ; free physical = 12552 ; free virtual = 17794
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'z1top' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/z1top.v:1]
+INFO: [Synth 8-6157] synthesizing module 'synchronizer' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/synchronizer.v:1]
+INFO: [Synth 8-6155] done synthesizing module 'synchronizer' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/synchronizer.v:1]
+INFO: [Synth 8-6157] synthesizing module 'clocks' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/clocks.v:1]
+	Parameter CPU_CLK_CLKFBOUT_MULT bound to: 34 - type: integer 
+	Parameter CPU_CLK_DIVCLK_DIVIDE bound to: 5 - type: integer 
+	Parameter CPU_CLK_CLKOUT_DIVIDE bound to: 17 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'BUFG' [/home/wang/Vivado/Vivado/2024.2/scripts/rt/data/unisim_comp.v:2676]
+INFO: [Synth 8-6155] done synthesizing module 'BUFG' (0#1) [/home/wang/Vivado/Vivado/2024.2/scripts/rt/data/unisim_comp.v:2676]
+INFO: [Synth 8-6157] synthesizing module 'PLLE2_ADV' [/home/wang/Vivado/Vivado/2024.2/scripts/rt/data/unisim_comp.v:117720]
+	Parameter BANDWIDTH bound to: OPTIMIZED - type: string 
+	Parameter CLKFBOUT_MULT bound to: 34 - type: integer 
+	Parameter CLKFBOUT_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKIN1_PERIOD bound to: 8.000000 - type: double 
+	Parameter CLKOUT0_DIVIDE bound to: 17 - type: integer 
+	Parameter CLKOUT0_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT0_PHASE bound to: 0.000000 - type: double 
+	Parameter COMPENSATION bound to: BUF_IN - type: string 
+	Parameter DIVCLK_DIVIDE bound to: 5 - type: integer 
+	Parameter STARTUP_WAIT bound to: FALSE - type: string 
+INFO: [Synth 8-6155] done synthesizing module 'PLLE2_ADV' (0#1) [/home/wang/Vivado/Vivado/2024.2/scripts/rt/data/unisim_comp.v:117720]
+INFO: [Synth 8-6157] synthesizing module 'PLLE2_ADV__parameterized0' [/home/wang/Vivado/Vivado/2024.2/scripts/rt/data/unisim_comp.v:117720]
+	Parameter BANDWIDTH bound to: OPTIMIZED - type: string 
+	Parameter CLKFBOUT_MULT bound to: 36 - type: integer 
+	Parameter CLKFBOUT_PHASE bound to: 0.000000 - type: double 
+	Parameter CLKIN1_PERIOD bound to: 8.000000 - type: double 
+	Parameter CLKOUT0_DIVIDE bound to: 6 - type: integer 
+	Parameter CLKOUT0_DUTY_CYCLE bound to: 0.500000 - type: double 
+	Parameter CLKOUT0_PHASE bound to: 0.000000 - type: double 
+	Parameter COMPENSATION bound to: BUF_IN - type: string 
+	Parameter DIVCLK_DIVIDE bound to: 5 - type: integer 
+	Parameter STARTUP_WAIT bound to: FALSE - type: string 
+INFO: [Synth 8-6155] done synthesizing module 'PLLE2_ADV__parameterized0' (0#1) [/home/wang/Vivado/Vivado/2024.2/scripts/rt/data/unisim_comp.v:117720]
+INFO: [Synth 8-6155] done synthesizing module 'clocks' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/clocks.v:1]
+INFO: [Synth 8-6157] synthesizing module 'button_parser' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/button_parser.v:3]
+	Parameter WIDTH bound to: 4 - type: integer 
+	Parameter SAMPLE_CNT_MAX bound to: 25000 - type: integer 
+	Parameter PULSE_CNT_MAX bound to: 200 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'synchronizer__parameterized0' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/synchronizer.v:1]
+	Parameter WIDTH bound to: 4 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'synchronizer__parameterized0' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/synchronizer.v:1]
+INFO: [Synth 8-6157] synthesizing module 'debouncer' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/debouncer.v:1]
+	Parameter WIDTH bound to: 4 - type: integer 
+	Parameter SAMPLE_CNT_MAX bound to: 25000 - type: integer 
+	Parameter PULSE_CNT_MAX bound to: 200 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'debouncer' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/debouncer.v:1]
+INFO: [Synth 8-6157] synthesizing module 'edge_detector' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/edge_detector.v:1]
+	Parameter WIDTH bound to: 4 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'edge_detector' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/edge_detector.v:1]
+INFO: [Synth 8-6155] done synthesizing module 'button_parser' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/button_parser.v:3]
+INFO: [Synth 8-6157] synthesizing module 'cpu' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/riscv_core/cpu.v:1]
+	Parameter CPU_CLOCK_FREQ bound to: 50000000 - type: integer 
+	Parameter RESET_PC bound to: 1073741824 - type: integer 
+	Parameter BAUD_RATE bound to: 115200 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'bios_mem' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/memories/bios_mem.v:1]
+INFO: [Synth 8-3876] $readmem data file '/home/wang/RISC-V_FPGA_PROJECT/hardware/../software/bios/bios.hex' is read successfully [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/memories/bios_mem.v:27]
+INFO: [Synth 8-6155] done synthesizing module 'bios_mem' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/memories/bios_mem.v:1]
+INFO: [Synth 8-6157] synthesizing module 'dmem' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/memories/dmem.v:1]
+INFO: [Synth 8-6155] done synthesizing module 'dmem' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/memories/dmem.v:1]
+INFO: [Synth 8-6157] synthesizing module 'imem' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/memories/imem.v:1]
+INFO: [Synth 8-6155] done synthesizing module 'imem' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/memories/imem.v:1]
+INFO: [Synth 8-6157] synthesizing module 'reg_file' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/riscv_core/reg_file.v:1]
+INFO: [Synth 8-6155] done synthesizing module 'reg_file' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/riscv_core/reg_file.v:1]
+INFO: [Synth 8-6157] synthesizing module 'uart' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/uart.v:1]
+	Parameter CLOCK_FREQ bound to: 50000000 - type: integer 
+	Parameter BAUD_RATE bound to: 115200 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'uart_transmitter' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/uart_transmitter.v:1]
+	Parameter CLOCK_FREQ bound to: 50000000 - type: integer 
+	Parameter BAUD_RATE bound to: 115200 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'uart_transmitter' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/uart_transmitter.v:1]
+INFO: [Synth 8-6157] synthesizing module 'uart_receiver' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/uart_receiver.v:1]
+	Parameter CLOCK_FREQ bound to: 50000000 - type: integer 
+	Parameter BAUD_RATE bound to: 115200 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'uart_receiver' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/uart_receiver.v:1]
+INFO: [Synth 8-6155] done synthesizing module 'uart' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/uart.v:1]
+INFO: [Synth 8-6157] synthesizing module 'EIGHT_INPUT_MUX' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:38]
+INFO: [Synth 8-226] default block is never used [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:44]
+INFO: [Synth 8-6155] done synthesizing module 'EIGHT_INPUT_MUX' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:38]
+INFO: [Synth 8-6157] synthesizing module 'ADDER' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:59]
+INFO: [Synth 8-6155] done synthesizing module 'ADDER' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:59]
+INFO: [Synth 8-6157] synthesizing module 'TWO_INPUT_MUX' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:8]
+INFO: [Synth 8-226] default block is never used [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:14]
+INFO: [Synth 8-6155] done synthesizing module 'TWO_INPUT_MUX' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:8]
+INFO: [Synth 8-6157] synthesizing module 'IMM_GEN' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:110]
+INFO: [Synth 8-6155] done synthesizing module 'IMM_GEN' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:110]
+INFO: [Synth 8-6157] synthesizing module 'FOUR_INPUT_MUX' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:22]
+INFO: [Synth 8-226] default block is never used [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:28]
+INFO: [Synth 8-6155] done synthesizing module 'FOUR_INPUT_MUX' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:22]
+INFO: [Synth 8-6157] synthesizing module 'BRANCH_COMPARATOR' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:92]
+INFO: [Synth 8-6155] done synthesizing module 'BRANCH_COMPARATOR' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:92]
+INFO: [Synth 8-6157] synthesizing module 'ALU' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:67]
+INFO: [Synth 8-6155] done synthesizing module 'ALU' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:67]
+INFO: [Synth 8-6157] synthesizing module 'LDX' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:133]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:141]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:150]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:159]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:167]
+INFO: [Synth 8-6155] done synthesizing module 'LDX' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:133]
+INFO: [Synth 8-6157] synthesizing module 'WF_CU' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/EECS151.v:545]
+INFO: [Synth 8-6155] done synthesizing module 'WF_CU' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/EECS151.v:545]
+INFO: [Synth 8-6157] synthesizing module 'D_CU' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/EECS151.v:636]
+INFO: [Synth 8-6155] done synthesizing module 'D_CU' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/EECS151.v:636]
+INFO: [Synth 8-6157] synthesizing module 'X_CU' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/EECS151.v:680]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/EECS151.v:692]
+INFO: [Synth 8-226] default block is never used [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/EECS151.v:730]
+INFO: [Synth 8-6155] done synthesizing module 'X_CU' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/EECS151.v:680]
+INFO: [Synth 8-6155] done synthesizing module 'cpu' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/riscv_core/cpu.v:1]
+INFO: [Synth 8-6155] done synthesizing module 'z1top' (0#1) [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/z1top.v:1]
+WARNING: [Synth 8-6014] Unused sequential element tohost_csr_reg was removed.  [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/riscv_core/cpu.v:383]
+WARNING: [Synth 8-3848] Net LEDS in module/entity z1top does not have driver. [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/z1top.v:22]
+WARNING: [Synth 8-3917] design z1top has port AUD_SD driven by constant 1
+WARNING: [Synth 8-7129] Port instruction[31] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[29] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[28] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[27] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[26] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[25] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[11] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[10] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[9] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[8] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[7] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[1] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[0] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[31] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[30] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[29] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[28] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[27] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[26] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[25] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[24] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[23] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[22] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[21] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[20] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[19] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[18] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[17] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[16] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[15] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[14] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[13] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[12] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[1] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[0] in module X_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[31] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[30] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[29] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[28] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[27] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[26] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[25] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[14] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[13] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[12] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[11] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[10] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[9] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[8] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[7] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[6] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[5] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[4] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[3] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[2] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[1] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port instruction[0] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[31] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[29] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[28] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[27] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[26] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[25] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[24] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[23] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[22] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[21] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[20] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[19] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[18] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[17] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[16] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[15] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[14] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[13] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[12] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[11] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[10] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[9] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[8] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[7] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[6] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[5] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[4] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[3] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[2] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[1] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port pc[0] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[31] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[30] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[29] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[28] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[27] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[26] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[25] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[24] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[23] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[22] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[21] in module D_CU is either unconnected or has no load
+WARNING: [Synth 8-7129] Port wf_instruction[20] in module D_CU is either unconnected or has no load
+INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 1989.973 ; gain = 516.770 ; free physical = 12440 ; free virtual = 17685
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2001.848 ; gain = 528.645 ; free physical = 12437 ; free virtual = 17682
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2001.848 ; gain = 528.645 ; free physical = 12437 ; free virtual = 17682
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2007.785 ; gain = 0.000 ; free physical = 12435 ; free virtual = 17679
+INFO: [Netlist 29-17] Analyzing 2 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/z1top.xdc]
+Finished Parsing XDC File [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/z1top.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/z1top.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/z1top_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/z1top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+INFO: [Timing 38-2] Deriving generated clocks
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2154.598 ; gain = 0.000 ; free physical = 12403 ; free virtual = 17664
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2154.598 ; gain = 0.000 ; free physical = 12403 ; free virtual = 17664
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2154.598 ; gain = 681.395 ; free physical = 12397 ; free virtual = 17659
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z020clg400-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2162.602 ; gain = 689.398 ; free physical = 12397 ; free virtual = 17659
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2162.602 ; gain = 689.398 ; free physical = 12397 ; free virtual = 17659
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-6841] Block RAM (mem_reg) originally specified as a Byte Wide Write Enable RAM cannot take advantage of ByteWide feature and is implemented with single write enable per RAM due to following reason.
+(address width (14) is more than optimal threshold of 12. Implementing using BWWE will require more logic and timing would be suboptimal. Please use attribute ram_decomp = power if BWWE is desired.)
+WARNING: [Synth 8-6841] Block RAM (mem_reg) originally specified as a Byte Wide Write Enable RAM cannot take advantage of ByteWide feature and is implemented with single write enable per RAM due to following reason.
+(address width (14) is more than optimal threshold of 12. Implementing using BWWE will require more logic and timing would be suboptimal. Please use attribute ram_decomp = power if BWWE is desired.)
+WARNING: [Synth 8-327] inferring latch for variable 'ldx_out_reg' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/basic_models.v:142]
+WARNING: [Synth 8-327] inferring latch for variable 'br_un_reg' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/EECS151.v:726]
+WARNING: [Synth 8-327] inferring latch for variable 'b_sel_reg' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/EECS151.v:728]
+WARNING: [Synth 8-327] inferring latch for variable 'alu_sel_reg' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/EECS151.v:732]
+WARNING: [Synth 8-327] inferring latch for variable 'csr_sel_reg' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/EECS151.v:749]
+WARNING: [Synth 8-327] inferring latch for variable 'br_taken_reg' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/EECS151.v:694]
+WARNING: [Synth 8-327] inferring latch for variable 'dmem_we_reg' [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/riscv_core/cpu.v:40]
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2162.602 ; gain = 689.398 ; free physical = 12388 ; free virtual = 17651
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   32 Bit       Adders := 4     
+	   3 Input   32 Bit       Adders := 1     
+	   2 Input   15 Bit       Adders := 1     
+	   2 Input    9 Bit       Adders := 6     
+	   2 Input    4 Bit       Adders := 2     
++---XORs : 
+	   2 Input     32 Bit         XORs := 1     
++---Registers : 
+	               32 Bit    Registers := 44    
+	               15 Bit    Registers := 1     
+	               10 Bit    Registers := 2     
+	                9 Bit    Registers := 6     
+	                4 Bit    Registers := 6     
+	                1 Bit    Registers := 9     
++---RAMs : 
+	             512K Bit	(16384 X 32 bit)          RAMs := 2     
++---ROMs : 
+	                    ROMs := 2     
++---Muxes : 
+	   2 Input   32 Bit        Muxes := 19    
+	   4 Input   32 Bit        Muxes := 8     
+	   3 Input   32 Bit        Muxes := 1     
+	   2 Input   10 Bit        Muxes := 2     
+	   2 Input    8 Bit        Muxes := 2     
+	   2 Input    4 Bit        Muxes := 2     
+	   8 Input    4 Bit        Muxes := 2     
+	   2 Input    3 Bit        Muxes := 4     
+	  11 Input    2 Bit        Muxes := 1     
+	   5 Input    2 Bit        Muxes := 2     
+	   3 Input    2 Bit        Muxes := 1     
+	   2 Input    2 Bit        Muxes := 4     
+	   4 Input    2 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 55    
+	   5 Input    1 Bit        Muxes := 1     
+	   3 Input    1 Bit        Muxes := 2     
+	  11 Input    1 Bit        Muxes := 5     
+	   7 Input    1 Bit        Muxes := 1     
+	   4 Input    1 Bit        Muxes := 1     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 220 (col length:60)
+BRAMs: 280 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-3936] Found unconnected internal register 'bp/button_edge_detector/edge_detect_pulse_reg_reg' and it is trimmed from '4' to '1' bits. [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/io_circuits/edge_detector.v:16]
+WARNING: [Synth 8-3917] design z1top has port AUD_SD driven by constant 1
+WARNING: [Synth 8-6841] Block RAM (mem_reg) originally specified as a Byte Wide Write Enable RAM cannot take advantage of ByteWide feature and is implemented with single write enable per RAM due to following reason.
+(address width (14) is more than optimal threshold of 12. Implementing using BWWE will require more logic and timing would be suboptimal. Please use attribute ram_decomp = power if BWWE is desired.)
+WARNING: [Synth 8-6841] Block RAM (mem_reg) originally specified as a Byte Wide Write Enable RAM cannot take advantage of ByteWide feature and is implemented with single write enable per RAM due to following reason.
+(address width (14) is more than optimal threshold of 12. Implementing using BWWE will require more logic and timing would be suboptimal. Please use attribute ram_decomp = power if BWWE is desired.)
+WARNING: [Synth 8-3332] Sequential element (csr_sel_reg[1]) is unused and will be removed from module X_CU.
+WARNING: [Synth 8-3332] Sequential element (csr_sel_reg[0]) is unused and will be removed from module X_CU.
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 2162.602 ; gain = 689.398 ; free physical = 12351 ; free virtual = 17624
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+ROM: Preliminary Mapping Report
++------------+--------------------+---------------+----------------+
+|Module Name | RTL Object         | Depth x Width | Implemented As | 
++------------+--------------------+---------------+----------------+
+|cpu         | bios_mem/douta_reg | 2048x32       | Block RAM      | 
+|cpu         | bios_mem/doutb_reg | 2048x32       | Block RAM      | 
++------------+--------------------+---------------+----------------+
+
+
+Block RAM: Preliminary Mapping Report (see note below)
++------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|Module Name | RTL Object | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
++------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|cpu/dmem    | mem_reg    | 16 K x 32(READ_FIRST)  | W | R |                        |   |   | Port A           | 0      | 16     | 
+|cpu/imem    | mem_reg    | 16 K x 32(READ_FIRST)  | W |   | 16 K x 32(WRITE_FIRST) |   | R | Port A and B     | 0      | 16     | 
++------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+
+Note: The table above is a preliminary report that shows the Block RAMs at the current stage of the synthesis flow. Some Block RAMs may be reimplemented as non Block RAM primitives later in the synthesis flow. Multiple instantiated Block RAMs are reported only once. 
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:17 ; elapsed = 00:00:16 . Memory (MB): peak = 2196.602 ; gain = 723.398 ; free physical = 12275 ; free virtual = 17555
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:19 ; elapsed = 00:00:18 . Memory (MB): peak = 2264.672 ; gain = 791.469 ; free physical = 12215 ; free virtual = 17495
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Block RAM: Final Mapping Report
++------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|Module Name | RTL Object | PORT A (Depth x Width) | W | R | PORT B (Depth x Width) | W | R | Ports driving FF | RAMB18 | RAMB36 | 
++------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+|cpu/dmem    | mem_reg    | 16 K x 32(READ_FIRST)  | W | R |                        |   |   | Port A           | 0      | 16     | 
+|cpu/imem    | mem_reg    | 16 K x 32(READ_FIRST)  | W |   | 16 K x 32(WRITE_FIRST) |   | R | Port A and B     | 0      | 16     | 
++------------+------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+INFO: [Synth 8-7052] The timing for the instance cpu/dmem/mem_reg_0_0 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/dmem/mem_reg_0_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/dmem/mem_reg_0_2 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/dmem/mem_reg_0_3 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/dmem/mem_reg_1_0 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/dmem/mem_reg_1_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/dmem/mem_reg_1_2 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/dmem/mem_reg_1_3 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/dmem/mem_reg_2_0 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/dmem/mem_reg_2_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/dmem/mem_reg_2_2 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/dmem/mem_reg_2_3 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/dmem/mem_reg_3_0 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/dmem/mem_reg_3_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/dmem/mem_reg_3_2 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/dmem/mem_reg_3_3 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/imem/mem_reg_0_0 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/imem/mem_reg_0_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/imem/mem_reg_0_2 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/imem/mem_reg_0_3 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/imem/mem_reg_1_0 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/imem/mem_reg_1_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/imem/mem_reg_1_2 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/imem/mem_reg_1_3 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/imem/mem_reg_2_0 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/imem/mem_reg_2_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/imem/mem_reg_2_2 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/imem/mem_reg_2_3 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/imem/mem_reg_3_0 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/imem/mem_reg_3_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/imem/mem_reg_3_2 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/imem/mem_reg_3_3 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/bios_mem/douta_reg_0 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/bios_mem/douta_reg_0 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/bios_mem/douta_reg_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance cpu/bios_mem/douta_reg_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:20 ; elapsed = 00:00:19 . Memory (MB): peak = 2298.680 ; gain = 825.477 ; free physical = 12170 ; free virtual = 17449
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+INFO: [Synth 8-4163] Replicating register fpga_serial_rx_iob_reg to handle IOB=TRUE attribute
+WARNING: [Synth 8-3332] Sequential element (cpu/dmem_we_reg[3]) is unused and will be removed from module z1top.
+WARNING: [Synth 8-3332] Sequential element (cpu/dmem_we_reg[2]) is unused and will be removed from module z1top.
+WARNING: [Synth 8-3332] Sequential element (cpu/dmem_we_reg[1]) is unused and will be removed from module z1top.
+WARNING: [Synth 8-3332] Sequential element (cpu/dmem_we_reg[0]) is unused and will be removed from module z1top.
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:22 ; elapsed = 00:00:21 . Memory (MB): peak = 2390.492 ; gain = 917.289 ; free physical = 12110 ; free virtual = 17390
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:22 ; elapsed = 00:00:21 . Memory (MB): peak = 2390.492 ; gain = 917.289 ; free physical = 12110 ; free virtual = 17389
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:22 ; elapsed = 00:00:21 . Memory (MB): peak = 2390.492 ; gain = 917.289 ; free physical = 12108 ; free virtual = 17387
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:22 ; elapsed = 00:00:21 . Memory (MB): peak = 2390.492 ; gain = 917.289 ; free physical = 12108 ; free virtual = 17387
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:22 ; elapsed = 00:00:21 . Memory (MB): peak = 2393.461 ; gain = 920.258 ; free physical = 12108 ; free virtual = 17387
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:22 ; elapsed = 00:00:21 . Memory (MB): peak = 2393.461 ; gain = 920.258 ; free physical = 12108 ; free virtual = 17387
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+----------+------+
+|      |Cell      |Count |
++------+----------+------+
+|1     |BUFG      |     5|
+|2     |CARRY4    |    79|
+|3     |LUT1      |    15|
+|4     |LUT2      |   112|
+|5     |LUT3      |    56|
+|6     |LUT4      |   261|
+|7     |LUT5      |   522|
+|8     |LUT6      |  1039|
+|9     |MUXF7     |   256|
+|10    |MUXF8     |   128|
+|11    |PLLE2_ADV |     2|
+|13    |RAMB36E1  |    34|
+|17    |FDRE      |  1369|
+|18    |FDSE      |     2|
+|19    |LD        |    38|
+|20    |LDC       |    17|
+|21    |IBUF      |     3|
+|22    |OBUF      |     3|
+|23    |OBUFT     |     6|
++------+----------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:22 ; elapsed = 00:00:21 . Memory (MB): peak = 2393.461 ; gain = 920.258 ; free physical = 12108 ; free virtual = 17387
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 194 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:21 ; elapsed = 00:00:20 . Memory (MB): peak = 2393.461 ; gain = 767.508 ; free physical = 12107 ; free virtual = 17387
+Synthesis Optimization Complete : Time (s): cpu = 00:00:23 ; elapsed = 00:00:21 . Memory (MB): peak = 2393.469 ; gain = 920.258 ; free physical = 12106 ; free virtual = 17386
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2393.469 ; gain = 0.000 ; free physical = 12268 ; free virtual = 17549
+INFO: [Netlist 29-17] Analyzing 554 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Parsing XDC File [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/z1top.xdc]
+Finished Parsing XDC File [/home/wang/RISC-V_FPGA_PROJECT/hardware/src/z1top.xdc]
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2417.473 ; gain = 0.000 ; free physical = 12261 ; free virtual = 17543
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 55 instances were transformed.
+  LD => LDCE: 38 instances
+  LDC => LDCE: 17 instances
+
+Synth Design complete | Checksum: 65061628
+INFO: [Common 17-83] Releasing license: Synthesis
+124 Infos, 123 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:28 ; elapsed = 00:00:26 . Memory (MB): peak = 2417.473 ; gain = 1099.840 ; free physical = 12261 ; free virtual = 17543
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1940.337; main = 1842.708; forked = 326.745
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3208.059; main = 2417.473; forked = 909.379
+# write_checkpoint -force ${TOP}.dcp
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Wrote PlaceDB: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2449.488 ; gain = 0.000 ; free physical = 12260 ; free virtual = 17542
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2449.488 ; gain = 0.000 ; free physical = 12260 ; free virtual = 17542
+Writing XDEF routing.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00 . Memory (MB): peak = 2449.488 ; gain = 0.000 ; free physical = 12260 ; free virtual = 17542
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2449.488 ; gain = 0.000 ; free physical = 12260 ; free virtual = 17542
+Wrote Netlist Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2449.488 ; gain = 0.000 ; free physical = 12260 ; free virtual = 17542
+Wrote Device Cache: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2449.488 ; gain = 0.000 ; free physical = 12260 ; free virtual = 17543
+Write Physdb Complete: Time (s): cpu = 00:00:00.11 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2449.488 ; gain = 0.000 ; free physical = 12260 ; free virtual = 17543
+INFO: [Common 17-1381] The checkpoint '/home/wang/RISC-V_FPGA_PROJECT/hardware/build/synth/z1top.dcp' has been generated.
+# report_timing_summary -file post_synth_timing_summary.rpt
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [Timing 38-2] Deriving generated clocks
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -1, Delay Type: min_max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 4 CPUs
+# report_drc -file post_synth_drc.rpt
+Command: report_drc -file post_synth_drc.rpt
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/wang/Vivado/Vivado/2024.2/data/ip'.
+INFO: [DRC 23-27] Running DRC with 4 threads
+INFO: [Vivado_Tcl 2-168] The results of DRC are in file /home/wang/RISC-V_FPGA_PROJECT/hardware/build/synth/post_synth_drc.rpt.
+report_drc completed successfully
+# report_utilization -file post_synth_utilization.rpt
+# write_verilog -force -file post_synth.v
+# write_xdc -force -file post_synth.xdc
+INFO: [Common 17-206] Exiting Vivado at Sat Sep 27 20:10:58 2025...
