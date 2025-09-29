@@ -1,0 +1,11 @@
+FST info: dumpfile bp_cache_tb.fst opened for output.
+Test case 1 passed! (Cache Read Miss)
+Test case 2 passed! (Cache Write Miss)
+Test case 3 passed! (Cache Read Hit)
+Test case 4 passed! (Cache Write Hit)
+Test case 5 passed! (Cache Read Hit)
+Test case 6 passed! (Cache Eviction)
+Test case 7 passed! (Cache Eviction)
+Test case 8 passed! (Cache Read After Eviction)
+Test case 9 passed! (Cache Reset)
+bp_cache_tb.v:127: $finish called at 1100000 (1ps)

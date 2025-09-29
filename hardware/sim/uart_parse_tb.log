@@ -1,0 +1,7 @@
+ERROR: uart_parse_tb.v:97: $readmemh: Unable to open ../../software/uart_parse/uart_parse.hex for reading.
+ERROR: uart_parse_tb.v:98: $readmemh: Unable to open ../../software/uart_parse/uart_parse.hex for reading.
+FST info: dumpfile uart_parse_tb.fst opened for output.
+[TEST 1] Expect to see: \r\n151> 
+Timeout!
+FATAL: uart_parse_tb.v:165: 
+       Time: 1999990000  Scope: uart_parse_tb
