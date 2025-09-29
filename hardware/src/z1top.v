@@ -57,6 +57,9 @@ module z1top #(
         pwm_iob <= pwm_out;
     end
 
+    // Synchronize the switches to the CPU clock domain
+    wire [1:0] switches_sync;
+
     // Generate a reset for the PWM clock domain
     wire pwm_rst, reset_button_pwm_domain;
     synchronizer rst_pwm_sync (.async_signal(buttons_pressed[0]), .sync_signal(reset_button_pwm_domain), .clk(pwm_clk));
@@ -84,6 +87,14 @@ module z1top #(
         .out(buttons_pressed)
     );
 
+    synchronizer #(
+        .WIDTH(2)
+    ) switch_synchronizer (
+        .clk(cpu_clk),
+        .async_signal(SWITCHES),
+        .sync_signal(switches_sync)
+    );
+
     cpu #(
         .CPU_CLOCK_FREQ(CPU_CLOCK_FREQ),
         .RESET_PC(RESET_PC),
@@ -92,7 +103,8 @@ module z1top #(
         .clk(cpu_clk),
         .rst(cpu_reset),
         .serial_out(cpu_tx),
-        .serial_in(cpu_rx)
+        .serial_in(cpu_rx),
+        .bp_enable(switches_sync[0])
     );
 
 

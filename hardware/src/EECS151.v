@@ -542,13 +542,14 @@ module ASYNC_RAM_1W2R(d0, addr0, we0, q1, addr1, q2, addr2, clk);
 endmodule // ASYNC_RAM_1W2R
 
 
-module WF_CU(rst, instruction, rf_we, wb_sel, ldx_sel, pc_sel, br_taken, jal, jalr);
+module WF_CU(rst, instruction, rf_we, wb_sel, ldx_sel, pc_sel, br_taken, jal, jalr,
+  x_instruction, br_pred_correct);
   // needs branch logic, jalr, and jal (as inputs)
   input rst;
   input jal;
   input jalr;
-	input [31:0] instruction;
-  input br_taken;
+	input [31:0] instruction, x_instruction;
+  input br_taken, br_pred_correct;
 	output reg rf_we;
   output reg [1:0] wb_sel;
 	output reg [2:0] ldx_sel, pc_sel;
@@ -557,8 +558,8 @@ module WF_CU(rst, instruction, rf_we, wb_sel, ldx_sel, pc_sel, br_taken, jal, ja
     if (rst) pc_sel = 0;
     else if (jal) pc_sel = 1;
     else if (jalr) pc_sel = 3;
-    else if (br_taken) pc_sel = 3;
-    //else if (instruction[6:2] == `OPC_BRANCH_5 || instruction[6:2] == `OPC_JALR_5) pc_sel = 4;//weather need?
+    //else if (br_taken) pc_sel = 3;
+    else if (!br_pred_correct && (x_instruction[6:2] == `OPC_BRANCH_5)) pc_sel = 3;
     else pc_sel = 2;
   end
  
@@ -633,17 +634,18 @@ module WF_CU(rst, instruction, rf_we, wb_sel, ldx_sel, pc_sel, br_taken, jal, ja
 	end
 endmodule // WF_CU
 
-module D_CU(instruction, pc, pc_thirty, nop_sel, orange_sel, green_sel, jalr, br_taken, wf_instruction);
-	input [31:0] instruction, pc, wf_instruction;
+module D_CU(instruction, pc, pc_thirty, nop_sel, orange_sel, green_sel, jalr, br_taken,
+  wf_instruction,x_instruction,br_pred_correct);
+	input [31:0] instruction, pc, wf_instruction, x_instruction;
   input jalr;
-  input br_taken;
+  input br_taken, br_pred_correct;
   // input br_taken, jalr; need br_taken and jalr for later
 	output reg orange_sel, green_sel;
   output nop_sel, pc_thirty;
 
 	assign pc_thirty = pc[30];
 
-  assign nop_sel = (jalr || br_taken) ? 1 : 0;
+  assign nop_sel = (jalr || (!br_pred_correct && (x_instruction[6:2] == `OPC_BRANCH_5))) ? 1 : 0;
 
 
   // 2 Cycle Hazard
@@ -677,14 +679,23 @@ module D_CU(instruction, pc, pc_thirty, nop_sel, orange_sel, green_sel, jalr, br
   end
 endmodule // D_CU
 
-module X_CU(instruction, orange_sel, green_sel, br_un, br_eq, br_lt, a_sel, b_sel, rs2_sel, alu_sel, csr_sel, br_taken, wf_instruction);
+module X_CU(instruction, orange_sel, green_sel, br_un, br_eq, br_lt, a_sel, b_sel,
+  rs2_sel, alu_sel, csr_sel, br_taken, wf_instruction,
+  br_pred_taken, br_pred_correct, br_result);
+
 	input [31:0] instruction, wf_instruction;
-  input br_eq, br_lt;
+  input br_eq, br_lt,br_pred_taken;
 
 	output reg br_un, b_sel;
 	output reg [1:0] orange_sel, green_sel, a_sel, rs2_sel,csr_sel;
 	output reg [3:0] alu_sel;
   output reg br_taken; // add br_taken logic
+  output br_pred_correct;
+  output br_result;
+
+  // Determining if branch prediction is correct
+  assign br_pred_correct = (br_pred_taken == br_taken);
+  assign br_result = br_pred_taken && !br_taken;
 
   //br_taken logic
   always @(*) begin

@@ -6,6 +6,7 @@ module cpu #(
     input clk,
     input rst,
     input serial_in,
+    input bp_enable,
     output serial_out
 );
     // BIOS Memory
@@ -31,7 +32,7 @@ module cpu #(
     // Write-byte-enable: select which of the four bytes to write
     wire [13:0] dmem_addr;
     reg [31:0] dmem_din;
-	wire [31:0] dmem_dout;
+	  wire [31:0] dmem_dout;
     reg [3:0] dmem_we;
     reg dmem_en;
     dmem dmem (
@@ -109,6 +110,7 @@ module cpu #(
     // Add as many modules as you want
     // Feel free to move the memory modules around
 
+
     //1. WF
 
     //pc_mux
@@ -147,7 +149,7 @@ module cpu #(
 
     // Wiring for WF stage
     assign pc_plus_four_in0 = pc_register_q; 
-    assign pc_mux_in2 = pc_plus_four_out;
+    //assign pc_mux_in2 = pc_plus_four_out;
     assign pc_mux_in0 = RESET_PC;
     assign pc_register_d = pc_mux_out;
     //assign pc_mux_in4 = pc_register_q;
@@ -202,6 +204,54 @@ module cpu #(
       .out(rs2_mux_out)
 	  );
 
+        // Branch Predictor
+    wire [31:0] pc_guess, pc_check;
+    wire is_br_guess, is_br_check, br_taken_check, br_pred_taken;
+    branch_predictor br_predictor (
+        .clk(clk),
+        .reset(rst),
+        .pc_guess(pc_guess),
+        .is_br_guess(is_br_guess),
+        .pc_check(pc_check),
+        .is_br_check(is_br_check),
+        .br_taken_check(br_taken_check),
+        .br_pred_taken(br_pred_taken)
+    );
+
+    // BR Taken MUX
+    wire br_taken_mux_sel;
+  	wire [31:0] br_taken_mux_in0, br_taken_mux_in1;
+    wire [31:0] br_taken_mux_out;
+    TWO_INPUT_MUX br_taken_mux (
+		.sel(br_taken_mux_sel),
+		.in0(br_taken_mux_in0),
+		.in1(br_taken_mux_in1),
+		.out(br_taken_mux_out)
+	);
+
+    // BP Enable MUX
+    wire bp_enable_mux_sel;
+  	wire [31:0] bp_enable_mux_in0, bp_enable_mux_in1;
+    wire [31:0] bp_enable_mux_out;
+    TWO_INPUT_MUX bp_enable_mux (
+		.sel(bp_enable_mux_sel),
+		.in0(bp_enable_mux_in0),
+		.in1(bp_enable_mux_in1),
+		.out(bp_enable_mux_out)
+	);
+
+    // Branch Prediction Taken/Not Taken MUX
+    wire bp_pred_taken_mux_sel;
+  	wire [31:0] bp_pred_taken_mux_in0, bp_pred_taken_mux_in1;
+    wire [31:0] bp_pred_taken_mux_out;
+    TWO_INPUT_MUX bp_pred_taken_mux (
+		.sel(bp_pred_taken_mux_sel),
+		.in0(bp_pred_taken_mux_in0),
+		.in1(bp_pred_taken_mux_in1),
+		.out(bp_pred_taken_mux_out)
+	);
+
+
     // pipeline registers for D stage
     wire [31:0] pc_decode_register_d;
     reg [31:0] pc_decode_register_q;
@@ -226,6 +276,13 @@ module cpu #(
     always @(posedge clk) begin
         rs2_register_q <= rs2_register_d;
     end
+
+    wire [31:0] br_pred_taken_register_d;
+    reg [31:0] br_pred_taken_register_q;
+    always @(posedge clk) begin
+        br_pred_taken_register_q <= br_pred_taken_register_d;
+    end
+
 
 	  // jal_adder
     wire [31:0] jal_adder_in0, jal_adder_in1;
@@ -259,6 +316,29 @@ module cpu #(
 
     assign rs1_register_d = rs1_mux_out;
     assign rs2_register_d = rs2_mux_out;
+
+    // Wiring for Branch Predictor
+    assign pc_guess = pc_register_q;
+    assign is_br_guess = nop_mux_out[6:2] == `OPC_BRANCH_5;
+
+    // BR Taken MUX Wiring
+    assign br_taken_mux_sel = (br_pred_taken) && (nop_mux_out[6:2] == `OPC_BRANCH_5);
+    assign br_taken_mux_in0 = pc_plus_four_out;
+    assign br_taken_mux_in1 = pc_register_q + {{20{nop_mux_out[31]}}, nop_mux_out[7], nop_mux_out[30:25], nop_mux_out[11:8], 1'b0};
+
+    // BP Enable MUX Wiring
+    assign bp_enable_mux_sel = bp_enable;
+    assign bp_enable_mux_in0 = pc_plus_four_out;
+    assign bp_enable_mux_in1 = br_taken_mux_out;
+
+    // PC Sel Input 2
+    assign pc_mux_in2 = bp_enable_mux_out;
+
+    // BR Pred Taken/Not Taken and BR Pred Taken Register
+    assign bp_pred_taken_mux_sel= bp_enable;
+    assign bp_pred_taken_mux_in0 = 0; // For no Branch prediction (always guess not taken)
+    assign bp_pred_taken_mux_in1 = br_pred_taken; // Branch prediction output
+    assign br_pred_taken_register_d = bp_pred_taken_mux_out;
 
 // 3. X -------------------------------------------------------
 
@@ -377,6 +457,16 @@ module cpu #(
         .in3(0),
         .out(csr_mux_out)
     );
+
+    wire br_result_mux_sel;
+    wire [31:0] br_result_mux_in0, br_result_mux_in1;
+    wire [31:0] br_result_mux_out;
+    TWO_INPUT_MUX br_result_mux (
+		.sel(br_result_mux_sel),
+		.in0(br_result_mux_in0),
+		.in1(br_result_mux_in1),
+		.out(br_result_mux_out)
+	);
 
     wire [31:0] csr_in;
     always @(posedge clk) begin
@@ -518,7 +608,16 @@ module cpu #(
 
     // send ALU result back to PC_SEL MUX
     // assign pc_mux_in3 = alu_register_q;
-    assign pc_mux_in3 = alu_out;
+    //assign pc_mux_in3 = alu_out;
+
+    // Branch Prediction Wiring
+    assign pc_check = pc_decode_register_q;
+    assign is_br_check = instruction_decode_register_q[6:2] == `OPC_BRANCH_5;
+
+    // BR Result Mux (output to PC_SEL = 3)
+    assign br_result_mux_in0 = alu_out;
+    assign br_result_mux_in1 = pc_decode_register_q + 4;
+    assign pc_mux_in3 = br_result_mux_out;
     
 
     // Input to ldx for lw, lh and lb
@@ -613,32 +712,32 @@ module cpu #(
     end
     
 
-    // Cycle Counter
-    reg [31:0] cycle_counter = 0;
-    always @(posedge clk) begin
-        if (uart_sw_addr == 32'h80000018) cycle_counter <= 0;
-        else cycle_counter <= cycle_counter + 1;
-    end
+    // // Cycle Counter
+    // reg [31:0] cycle_counter = 0;
+    // always @(posedge clk) begin
+    //     if (uart_sw_addr == 32'h80000018) cycle_counter <= 0;
+    //     else cycle_counter <= cycle_counter + 1;
+    // end
 
-    // Instruction Counter
-    reg [31:0] instruction_counter = 0;
-    always @(posedge clk) begin
-        if (uart_sw_addr == 32'h80000018) instruction_counter <= 0;
-        else if (uart_sw_instruction == 32'b0000_0000_0000_0000_0000_0000_0001_0011) instruction_counter <= instruction_counter;
-        else instruction_counter <= instruction_counter + 1;
-    end
+    // // Instruction Counter
+    // reg [31:0] instruction_counter = 0;
+    // always @(posedge clk) begin
+    //     if (uart_sw_addr == 32'h80000018) instruction_counter <= 0;
+    //     else if (uart_sw_instruction == 32'b0000_0000_0000_0000_0000_0000_0001_0011) instruction_counter <= instruction_counter;
+    //     else instruction_counter <= instruction_counter + 1;
+    // end
 
-    always @(*) begin
-        case(uart_lw_addr)
-            32'h80000000: uart_out = {30'b0, uart_rx_data_out_valid, uart_tx_data_in_ready};
-            32'h80000004: uart_out = {24'b0, uart_rx_data_out};
-            32'h80000010: uart_out = cycle_counter;
-            32'h80000014: uart_out = instruction_counter;
-            default: begin
-                uart_out = 32'h00000000;
-            end
-        endcase
-    end
+    // always @(*) begin
+    //     case(uart_lw_addr)
+    //         32'h80000000: uart_out = {30'b0, uart_rx_data_out_valid, uart_tx_data_in_ready};
+    //         32'h80000004: uart_out = {24'b0, uart_rx_data_out};
+    //         32'h80000010: uart_out = cycle_counter;
+    //         32'h80000014: uart_out = instruction_counter;
+    //         default: begin
+    //             uart_out = 32'h00000000;
+    //         end
+    //     endcase
+    // end
 
     // addr MUX input
     assign addr_mux_in0 = bios_doutb;
@@ -669,6 +768,8 @@ module cpu #(
 	  wire wf_br_taken;
     wire wf_jal;
     wire wf_jalr;
+    wire [31:0] wf_x_instruction;
+    wire wf_br_pred_correct;
     WF_CU wf_cu (
         .rst(rst),
         .instruction(wf_instruction), 
@@ -678,7 +779,9 @@ module cpu #(
         .pc_sel(wf_pc_sel),
 		    .br_taken(wf_br_taken),
         .jal(wf_jal),
-        .jalr(wf_jalr)
+        .jalr(wf_jalr),
+        .x_instruction(wf_x_instruction),
+        .br_pred_correct(wf_br_pred_correct)
     );
 
     assign wf_instruction = instruction_execute_register_q; // check this if reset we need to change control logic
@@ -688,7 +791,7 @@ module cpu #(
     assign pc_mux_sel = wf_pc_sel;
     assign wf_jal = (nop_mux_out[6:2] == `OPC_JAL_5) ? 1 : 0; //in decode stage
     assign wf_jalr = (instruction_decode_register_q[6:2] == `OPC_JALR_5) ? 1 : 0;//after alu
-
+    assign wf_x_instruction = instruction_decode_register_q;
 
     // ------------------ D CONTROL LOGIC
     wire [31:0] d_instruction;
@@ -697,6 +800,8 @@ module cpu #(
     wire d_pc_thirty, d_nop_sel, d_orange_sel, d_green_sel;
     wire d_jalr;
     wire d_br_taken;
+    wire [31:0] d_x_instruction;
+    wire d_br_pred_correct;
     D_CU d_cu (
         .instruction(d_instruction), 
         .pc(d_pc), 
@@ -706,7 +811,9 @@ module cpu #(
         .green_sel(d_green_sel),
         .jalr(d_jalr),
         .br_taken(d_br_taken),
-        .wf_instruction(d_wf_instruction)
+        .wf_instruction(d_wf_instruction),
+        .x_instruction(d_x_instruction),
+        .br_pred_correct(d_br_pred_correct)
     );
 
     assign d_instruction = nop_mux_out;
@@ -717,6 +824,8 @@ module cpu #(
     assign rs2_mux_sel = d_green_sel;
     assign d_jalr = (instruction_decode_register_q[6:2] == `OPC_JALR_5) ? 1 : 0;
     assign d_wf_instruction = instruction_execute_register_q;
+    assign d_x_instruction = instruction_decode_register_q;
+    
     
     // ------------------- EX CONTROL LOGIC
     wire [31:0] x_instruction,x_wf_instruction;
@@ -725,6 +834,8 @@ module cpu #(
     wire [1:0] x_orange_sel, x_green_sel, x_a_sel, x_rs2_sel,x_csr_sel;
     wire [3:0] x_alu_sel;
 	  wire x_br_taken;
+    wire x_br_pred_taken, x_br_pred_correct,x_br_result;
+
     X_CU x_cu (
         .instruction(x_instruction), 
         .orange_sel(x_orange_sel), 
@@ -738,7 +849,11 @@ module cpu #(
         .alu_sel(x_alu_sel), 
         .csr_sel(x_csr_sel),
         .br_taken(x_br_taken),
-        .wf_instruction(x_wf_instruction)
+        .wf_instruction(x_wf_instruction),
+        .br_pred_taken(x_br_pred_taken),
+        .br_pred_correct(x_br_pred_correct),
+        .br_result(x_br_result)
+
     );
 
     // EX Control Logic wires
@@ -756,6 +871,67 @@ module cpu #(
     assign wf_br_taken = x_br_taken;
     assign x_wf_instruction = instruction_execute_register_q;
     assign d_br_taken = x_br_taken;
+    assign x_br_pred_taken = br_pred_taken_register_q;
+
+    // Wiring for Branch Predictor
+    assign br_taken_check = x_br_taken;
+
+    // Wiring for BR Result Mux
+    assign br_result_mux_sel = x_br_result;
+
+    // Wiring for br_pred_correct to other modules
+    assign wf_br_pred_correct = x_br_pred_correct;
+    assign d_br_pred_correct = x_br_pred_correct;
+
+
+    // UART Output and Counters (need to move at bottom due to br_pred_correct)
+    // Cycle Counter
+    reg [31:0] cycle_counter = 0;
+    always @(posedge clk) begin
+        if (uart_sw_addr == 32'h80000018) cycle_counter <= 0;
+        else cycle_counter <= cycle_counter + 1;
+    end
+
+    // Instruction Counter
+    reg [31:0] instruction_counter = 0;
+    always @(posedge clk) begin
+        if (uart_sw_addr == 32'h80000018) instruction_counter <= 0;
+        else if (uart_sw_instruction == 32'b0000_0000_0000_0000_0000_0000_0001_0011) instruction_counter <= instruction_counter;
+        else instruction_counter <= instruction_counter + 1;
+    end
+
+    // Total Branch Instructions
+    reg [31:0] branch_instructions_counter = 0;
+    always @(posedge clk) begin
+        if (uart_sw_addr == 32'h80000018) branch_instructions_counter <= 0;
+        else if (instruction_decode_register_q[6:2] == `OPC_BRANCH_5) branch_instructions_counter <= branch_instructions_counter + 1;
+        else branch_instructions_counter <= branch_instructions_counter;
+    end
+
+    // Correct Predictions
+    reg [31:0] correct_prediction_counter = 0;
+    always @(posedge clk) begin
+        if (uart_sw_addr == 32'h80000018) correct_prediction_counter <= 0;
+        else if (instruction_decode_register_q[6:2] == `OPC_BRANCH_5 && x_br_pred_correct) correct_prediction_counter <= correct_prediction_counter + 1;
+        else correct_prediction_counter <= correct_prediction_counter;
+    end
+
+    always @(*) begin
+        case(uart_lw_addr)
+            32'h80000000: uart_out = {30'b0, uart_rx_data_out_valid, uart_tx_data_in_ready};
+            32'h80000004: uart_out = {24'b0, uart_rx_data_out};
+            32'h80000010: uart_out = cycle_counter;
+            32'h80000014: uart_out = instruction_counter;
+            32'h8000001c: uart_out = branch_instructions_counter;
+            32'h80000020: uart_out = correct_prediction_counter;
+            default: begin
+                uart_out = 32'h00000000;
+            end
+        endcase
+    end
+
+
+    
 
 	// Combinational logic for dmem write enable (Russel added this for tests 33-40)
 	always @(*) begin

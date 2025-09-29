@@ -1,0 +1,13 @@
+FST info: dumpfile mmio_counter_tb.fst opened for output.
+Benchmarking                              NOP Program
+                           Cycle :         11
+                     Instruction :          2
+              Branch Instruction :          0
+       Correct Branch Prediction :          0
+Benchmarking                         For Loop Program
+                           Cycle :         31
+                     Instruction :         23
+              Branch Instruction :         10
+       Correct Branch Prediction :          1
+All tests passed!
+mmio_counter_tb.v:253: $finish called at 3370000 (1ps)
