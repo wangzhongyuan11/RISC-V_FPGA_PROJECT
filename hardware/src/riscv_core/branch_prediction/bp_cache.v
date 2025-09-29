@@ -29,11 +29,30 @@ module bp_cache #(
     input we
 
 );
+	// localparam integer size_entry = ((AWIDTH - $clog2(LINES)) + 1 + DWIDTH); // # of cols = 30 - 7 + 1 + 2 = 26
+	localparam size_tag = AWIDTH - $clog2(LINES);
+	localparam size_data = DWIDTH;
+	localparam index = $clog2(LINES); // # of rows = 7
 
-    // TODO: Your code
-    assign dout0 = '0;
-    assign dout1 = '0;
-    assign hit0  = 1'b0;
-    assign hit1  = 1'b0;
+	reg [size_tag-1:0] tag [0:LINES-1];
+	reg [LINES-1:0] valid;
+	reg [size_data-1:0] data [0:LINES-1];
 
+	assign hit0 = (valid[ra0[index-1:0]] == 1'b1) && (tag[ra0[index-1:0]] == ra0[AWIDTH-1:index]);
+	assign hit1 = (valid[ra1[index-1:0]] == 1'b1) && (tag[ra1[index-1:0]] == ra1[AWIDTH-1:index]);
+
+	assign dout0 = data[ra0[index-1:0]];
+	assign dout1 = data[ra1[index-1:0]];
+
+	// Sync writes
+	always @(posedge clk) begin
+		if (reset) begin
+			valid <= 0;
+		end
+		else if (we) begin // If it's a branch instruction
+			tag[wa[index-1:0]] <= wa[AWIDTH-1:index];
+			valid[wa[index-1:0]] <= 1'b1;
+			data[wa[index-1:0]] <= din;
+		end
+	end
 endmodule

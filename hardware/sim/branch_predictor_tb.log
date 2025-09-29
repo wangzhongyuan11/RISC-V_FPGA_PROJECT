@@ -1,0 +1,20 @@
+FST info: dumpfile branch_predictor_tb.fst opened for output.
+Testing branch prediction for PC address: 00000000
+Testing branch prediction for PC address: 00000004
+Testing branch prediction for PC address: 00000008
+Testing branch prediction for PC address: 0000000c
+Testing branch prediction for PC address: 00000010
+Testing branch prediction for PC address: 00000014
+Testing branch prediction for PC address: 00000018
+Testing branch prediction for PC address: 0000001c
+Testing branch prediction for PC address: 00000020
+Testing branch prediction for PC address: 00000024
+Testing branch prediction for PC address: 00000028
+Testing branch prediction for PC address: 0000002c
+Testing branch prediction for PC address: 00000030
+Testing branch prediction for PC address: 00000034
+Testing branch prediction for PC address: 00000038
+Testing branch prediction for PC address: 0000003c
+Testing branch prediction caching
+All tests passed!
+branch_predictor_tb.v:124: $finish called at 1470000 (1ps)
