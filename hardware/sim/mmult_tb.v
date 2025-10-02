@@ -17,7 +17,7 @@ module mmult_tb();
     .rst(rst),
     .serial_in(1'b1),
     .serial_out(),
-    .bp_enable(1'b0) // 启用分支预测
+    .bp_enable(1'b1) // 启用分支预测
   );
 
   // 仿真初始化

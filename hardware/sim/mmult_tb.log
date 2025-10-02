@@ -2,8 +2,8 @@ WARNING: mmult_tb.v:28: $readmemh: The behaviour for reg[...] mem[N:0]; $readmem
 WARNING: mmult_tb.v:28: $readmemh(../../software/mmult/mmult.hex): Not enough words in the file for the requested range [0:4095].
 FST info: dumpfile mmult_tb.fst opened for output.
 --------------------------------------------------
-Cycle Counter       =     150179
-Instruction Counter =     131333
-CPI = 1.143498
+Cycle Counter       =     158235
+Instruction Counter =     151917
+CPI = 1.041588
 --------------------------------------------------
 mmult_tb.v:57: $finish called at 4000190000 (1ps)

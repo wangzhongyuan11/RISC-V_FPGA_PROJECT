@@ -680,12 +680,7 @@ module cpu #(
         end
     end
 
-    // input to UART
-    // assign uart_sw_instruction = instruction_decode_register_q;
-    // assign uart_lw_instruction = instruction_execute_register_q;
-    // assign uart_sw_addr = alu_out;
-    // assign uart_lw_addr = alu_register_q;
-    // assign uart_tx_data_in = rs2_mux3_out[7:0];
+
 
     wire [31:0] uart_lw_instruction,uart_sw_instruction, uart_lw_addr, uart_sw_addr;
     reg [31:0] uart_out;
@@ -712,32 +707,7 @@ module cpu #(
     end
     
 
-    // // Cycle Counter
-    // reg [31:0] cycle_counter = 0;
-    // always @(posedge clk) begin
-    //     if (uart_sw_addr == 32'h80000018) cycle_counter <= 0;
-    //     else cycle_counter <= cycle_counter + 1;
-    // end
 
-    // // Instruction Counter
-    // reg [31:0] instruction_counter = 0;
-    // always @(posedge clk) begin
-    //     if (uart_sw_addr == 32'h80000018) instruction_counter <= 0;
-    //     else if (uart_sw_instruction == 32'b0000_0000_0000_0000_0000_0000_0001_0011) instruction_counter <= instruction_counter;
-    //     else instruction_counter <= instruction_counter + 1;
-    // end
-
-    // always @(*) begin
-    //     case(uart_lw_addr)
-    //         32'h80000000: uart_out = {30'b0, uart_rx_data_out_valid, uart_tx_data_in_ready};
-    //         32'h80000004: uart_out = {24'b0, uart_rx_data_out};
-    //         32'h80000010: uart_out = cycle_counter;
-    //         32'h80000014: uart_out = instruction_counter;
-    //         default: begin
-    //             uart_out = 32'h00000000;
-    //         end
-    //     endcase
-    // end
 
     // addr MUX input
     assign addr_mux_in0 = bios_doutb;
