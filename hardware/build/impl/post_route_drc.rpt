@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (lin64) Build 5239630 Fri Nov 08 22:34:34 MST 2024
-| Date         : Fri Oct  3 12:01:46 2025
+| Date         : Fri Oct  3 14:02:39 2025
 | Host         : wang running 64-bit Ubuntu 24.04.2 LTS
 | Command      : report_drc -file post_route_drc.rpt
 | Design       : z1top
@@ -28,7 +28,7 @@ Table of Contents
 +----------+----------+------------------------------------------------+--------+
 | Rule     | Severity | Description                                    | Checks |
 +----------+----------+------------------------------------------------+--------+
-| PDRC-134 | Warning  | SLICE_PairEqSame_B6B5_WARN                     | 1      |
+| PDRC-138 | Warning  | SLICE_PairEqSame_D6D5_WARN                     | 1      |
 | PDRC-153 | Warning  | Gated clock check                              | 2      |
 | PLIO-8   | Warning  | Placement Constraints Check for IO constraints | 1      |
 | ZPS7-1   | Warning  | PS7 block required                             | 1      |
@@ -36,9 +36,9 @@ Table of Contents
 
 2. REPORT DETAILS
 -----------------
-PDRC-134#1 Warning
-SLICE_PairEqSame_B6B5_WARN  
-Luts B6LUT and B5LUT in use in site SLICE_X41Y23 with different equations without A6 pin connected to Global Logic High.
+PDRC-138#1 Warning
+SLICE_PairEqSame_D6D5_WARN  
+Luts D6LUT and D5LUT in use in site SLICE_X23Y22 with different equations without A6 pin connected to Global Logic High.
 Related violations: <none>
 
 PDRC-153#1 Warning
