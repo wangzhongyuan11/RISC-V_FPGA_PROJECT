@@ -436,13 +436,14 @@ module cpu #(
 
     // ALU
     wire [3:0] alu_sel;
-    wire [31:0] alu_rs1, alu_rs2;
+    wire [31:0] alu_rs1, alu_rs2,alu_pc;
     wire [31:0] alu_out;
     ALU alu (
         .alu_sel(alu_sel), 
         .rs1(alu_rs1), 
         .rs2(alu_rs2), 
-        .out(alu_out)
+        .out(alu_out),
+        .pc(alu_pc)
     );
 
     // CSR
@@ -458,15 +459,16 @@ module cpu #(
         .out(csr_mux_out)
     );
 
-    wire br_result_mux_sel;
-    wire [31:0] br_result_mux_in0, br_result_mux_in1;
-    wire [31:0] br_result_mux_out;
-    TWO_INPUT_MUX br_result_mux (
-		.sel(br_result_mux_sel),
-		.in0(br_result_mux_in0),
-		.in1(br_result_mux_in1),
-		.out(br_result_mux_out)
-	);
+    // wire br_result_mux_sel;
+    // wire [31:0] br_result_mux_in0, br_result_mux_in1;
+    // wire [31:0] br_result_mux_out;
+    // TWO_INPUT_MUX br_result_mux (
+	// 	.sel(br_result_mux_sel),
+	// 	.in0(br_result_mux_in0),
+	// 	.in1(br_result_mux_in1),
+	// 	.out(br_result_mux_out)
+	// );
+
 
     wire [31:0] csr_in;
     always @(posedge clk) begin
@@ -592,6 +594,7 @@ module cpu #(
     // inputs to ALU
     assign alu_rs1 = a_mux_out;
     assign alu_rs2 = b_mux_out;
+    assign alu_pc = pc_decode_register_q;
 
     // inputs to CSR_MUX
     assign csr_mux_in0 = csr_in;
@@ -615,9 +618,10 @@ module cpu #(
     assign is_br_check = instruction_decode_register_q[6:2] == `OPC_BRANCH_5;
 
     // BR Result Mux (output to PC_SEL = 3)
-    assign br_result_mux_in0 = alu_out;
-    assign br_result_mux_in1 = pc_decode_register_q + 4;
-    assign pc_mux_in3 = br_result_mux_out;
+    // assign br_result_mux_in0 = alu_out;
+    // assign br_result_mux_in1 = pc_decode_register_q + 4;
+    // assign pc_mux_in3 = br_result_mux_out;
+    assign pc_mux_in3 = alu_out;
     
 
     // Input to ldx for lw, lh and lb
@@ -680,7 +684,12 @@ module cpu #(
         end
     end
 
-
+    // input to UART
+    // assign uart_sw_instruction = instruction_decode_register_q;
+    // assign uart_lw_instruction = instruction_execute_register_q;
+    // assign uart_sw_addr = alu_out;
+    // assign uart_lw_addr = alu_register_q;
+    // assign uart_tx_data_in = rs2_mux3_out[7:0];
 
     wire [31:0] uart_lw_instruction,uart_sw_instruction, uart_lw_addr, uart_sw_addr;
     reg [31:0] uart_out;
@@ -847,7 +856,7 @@ module cpu #(
     assign br_taken_check = x_br_taken;
 
     // Wiring for BR Result Mux
-    assign br_result_mux_sel = x_br_result;
+    //assign br_result_mux_sel = x_br_result;
 
     // Wiring for br_pred_correct to other modules
     assign wf_br_pred_correct = x_br_pred_correct;
@@ -911,28 +920,25 @@ module cpu #(
     				3'b000: dmem_we = 4'b0001; // temp what are these values
 					3'b001: dmem_we = 4'b0011;
 					3'b010: dmem_we = 4'b1111;
-          default: dmem_we = 4'b0000;
+                    default: dmem_we = 4'b0000;
 				endcase
-
 			end
-			else if (alu_out[1:0] == 1) begin
-				if(x_instruction[14:12] == 3'b000)
-    				dmem_we = 4'b0010; // temp what are these values
+			else if (alu_out[1:0] == 1 && x_instruction[14:12] == 3'b000) begin
+				dmem_we = 4'b0010;
 			end
 			else if (alu_out[1:0] == 2) begin
 				case(x_instruction[14:12])
     				3'b000: dmem_we = 4'b0100; // temp what are these values
 					3'b001: dmem_we = 4'b1100;
-          default: dmem_we = 4'b0000;
+                    default: dmem_we = 4'b0000;
 				endcase
 			end
-			else if (alu_out[1:0] == 3) begin
-				if(x_instruction[14:12] == 3'b000)
-    				dmem_we = 4'b1000; // temp what are these values
+			else if (alu_out[1:0] == 3 && x_instruction[14:12] == 3'b000) begin
+				dmem_we = 4'b1000;
 			end
-      else dmem_we = 4'b0000;
+            else dmem_we = 4'b0000;
 		end
-    else dmem_we = 4'b0000;
+        else dmem_we = 4'b0000;
 	end
 
     // IMEM WEA
@@ -943,27 +949,24 @@ module cpu #(
     				3'b000: imem_wea = 4'b0001; // temp what are these values
 					3'b001: imem_wea = 4'b0011;
 					3'b010: imem_wea = 4'b1111;
-          default: imem_wea = 4'b0000;
+                    default: imem_wea = 4'b0000;
 				endcase
 			end
-			else if (alu_out[1:0] == 1) begin
-				if(x_instruction[14:12] == 3'b000)
-    				imem_wea = 4'b0010; // temp what are these values
+			else if (alu_out[1:0] == 1 && x_instruction[14:12] == 3'b000) begin
+				imem_wea = 4'b0010;
 			end
 			else if (alu_out[1:0] == 2) begin
 				case(x_instruction[14:12])
     				3'b000: imem_wea = 4'b0100; // temp what are these values
 					3'b001: imem_wea = 4'b1100;
-          default: imem_wea = 4'b0000;
+                    default: imem_wea = 4'b0000;
 				endcase
 			end
-			else if (alu_out[1:0] == 3) begin
-				if(x_instruction[14:12] == 3'b000)
-    				imem_wea = 4'b1000; // temp what are these values
+			else if (alu_out[1:0] == 3 && x_instruction[14:12] == 3'b000) begin
+				imem_wea = 4'b1000; // temp what are these values
 			end
-      else imem_wea = 4'b0000;
-      
+            else imem_wea = 4'b0000;
 		end
-    else imem_wea = 4'b0000;
+        else imem_wea = 4'b0000;
 	end
 endmodule

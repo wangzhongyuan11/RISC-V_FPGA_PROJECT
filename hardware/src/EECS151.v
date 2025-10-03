@@ -558,7 +558,6 @@ module WF_CU(rst, instruction, rf_we, wb_sel, ldx_sel, pc_sel, br_taken, jal, ja
     if (rst) pc_sel = 0;
     else if (jal) pc_sel = 1;
     else if (jalr) pc_sel = 3;
-    //else if (br_taken) pc_sel = 3;
     else if (!br_pred_correct && (x_instruction[6:2] == `OPC_BRANCH_5)) pc_sel = 3;
     else pc_sel = 2;
   end
@@ -801,7 +800,8 @@ module X_CU(instruction, orange_sel, green_sel, br_un, br_eq, br_lt, a_sel, b_se
           //a_sel = 1;
           b_sel = 1;
           // rs2_sel = 0;
-          alu_sel = 0;
+          if (br_pred_taken && !br_taken) alu_sel = 4'b1011;
+				    else alu_sel = 0;
 				  csr_sel = 0;
 			end
       `OPC_JAL_5: begin // J type (jal)
@@ -874,8 +874,8 @@ module X_CU(instruction, orange_sel, green_sel, br_un, br_eq, br_lt, a_sel, b_se
   assign x_rs1 = instruction[19:15];
   assign x_rs2 = instruction[24:20];
   // ALU to ALU and MEM to ALU
- always @(*) begin
-    if (wf_instruction[6:2] == `OPC_BRANCH_5 || wf_instruction[6:2] == `OPC_STORE_5||wf_rd==5'b0) begin // check if store necessary
+  always @(*) begin
+    if (wf_instruction[6:2] == `OPC_BRANCH_5 || wf_instruction[6:2] == `OPC_STORE_5 || wf_rd == 5'b0) begin // check if store necessary
       orange_sel = 0;
       green_sel = 0;
     end
@@ -917,15 +917,14 @@ module X_CU(instruction, orange_sel, green_sel, br_un, br_eq, br_lt, a_sel, b_se
     end
   end
 
-
-// ALU to MEM and MEM to MEM  rs2_sel
+  // ALU to MEM and MEM to MEM
   always @(*) begin
     case (instruction[6:2])
       `OPC_STORE_5: begin
         if (wf_instruction[6:2] == `OPC_LOAD_5 && wf_rd == x_rs2 && wf_rd != 5'b0) begin
           rs2_sel = 2'd2; // MEM to MEM
         end
-        else if (wf_rd == x_rs2 && wf_rd != 5'b0 && wf_instruction[6:2] != `OPC_STORE_5 && wf_instruction[6:2] != `OPC_BRANCH_5) begin
+        else if (wf_rd != 5'b0 && wf_rd == x_rs2 && wf_instruction[6:2] != `OPC_STORE_5 && wf_instruction[6:2] != `OPC_BRANCH_5) begin
           rs2_sel = 2'd1; // ALU to MEM
         end
         else begin
@@ -938,7 +937,7 @@ module X_CU(instruction, orange_sel, green_sel, br_un, br_eq, br_lt, a_sel, b_se
     endcase
   end
 
-  // MEM to MEM  a_sel
+  // MEM to MEM (is this correct?)
   always @(*) begin
     if (instruction[6:2] == `OPC_BRANCH_5 || instruction[6:2] == `OPC_JAL_5 || instruction[6:2] == `OPC_AUIPC_5) begin
       a_sel = 2'd1; // PC
@@ -946,7 +945,7 @@ module X_CU(instruction, orange_sel, green_sel, br_un, br_eq, br_lt, a_sel, b_se
     else begin
       case(wf_instruction[6:2])
         `OPC_LOAD_5: begin
-          if (instruction[6:2] == `OPC_STORE_5 && wf_instruction[11:7] == instruction[19:15] && wf_rd != 5'b0) begin
+          if (instruction[6:2] == `OPC_STORE_5 && wf_rd == instruction[19:15] && wf_rd != 5'b0) begin
             a_sel = 2'd2; // MEM to MEM
           end
           else begin
